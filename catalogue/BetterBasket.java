@@ -2,6 +2,7 @@ package catalogue;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Write a description of class BetterBasket here.
@@ -9,27 +10,23 @@ import java.util.Collections;
  * @author Your Name
  * @version 1.0
  */
-public class BetterBasket extends Basket implements Serializable {
+public class BetterBasket extends Basket implements Serializable, Comparator<Product>
+{
 	private static final long serialVersionUID = 1L;
-
-	  public boolean add( Product pr ) //Adds items to basket
-	  {       
-		  for(int index=0;index<size();index++) //Checks if there is any of the product already in basket, if so +1 to quantity
-		  {
-			  if (get(index).getProductNum().equals(pr.getProductNum()))
-			  {
-				  get(index).setQuantity(get(index).getQuantity()+pr.getQuantity());
-				  return true;
+	
+	  public boolean add(Product p1){       
+		  for (Product p2: this) {
+			  if(p1.getProductNum().equals(p2.getProductNum())) {
+				  p2.setQuantity(p2.getQuantity()+p1.getQuantity());
+				  return(true);
+						
 			  }
-		  }
-		  super.add(pr);
-		  Collections.sort(this, BetterBasket::arrange);
+		  } 
+		  super.add(p1); 
+		  Collections.sort(this, this);
 		  return true;
+}
+	  public int compare(Product p1, Product p2) {
+		  return p1.getProductNum().compareTo(p2.getProductNum());
 	  }
-	  public static int arrange(Product a, Product b) //Puts items in numeric order using the product numbers
-	  {
-		  return a.getProductNum().compareTo(b.getProductNum());
-	  }
-
-  // You need to add code here
-  }
+}
